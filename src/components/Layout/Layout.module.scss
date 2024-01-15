@@ -1,0 +1,12 @@
+.layout {
+	background-color: var(--primaryDark);
+	height: 100%;
+	.row {
+		display: grid;
+		grid-template-columns: 340px, 1fr;
+		gap: 20px;
+	}
+
+	.body {
+	}
+}

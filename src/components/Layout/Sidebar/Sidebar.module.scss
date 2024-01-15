@@ -1,0 +1,23 @@
+.sidebar {
+	width: 100px;
+
+	.logo {
+	}
+
+	.menu {
+	}
+
+	.list {
+		display: flex;
+		flex-direction: column;
+	}
+
+	a {
+		&.active {
+		}
+
+		svg {
+			color: #fff;
+		}
+	}
+}
