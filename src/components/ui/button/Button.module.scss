@@ -1,6 +1,6 @@
 .button {
 	padding: 10px 20px;
-	border-radius: 20px;
+	border-radius: 10px;
 	background-color: var(--primary);
 	color: #fff;
 	font-size: 14px;
@@ -8,25 +8,47 @@
 	text-transform: uppercase;
 	font-family: var(--font-ibm);
 	cursor: pointer;
+	letter-spacing: 1px;
 	position: relative;
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	justify-content: center;
 	&::before {
 		content: '';
 		width: 100%;
 		height: 100%;
-		border-radius: 20px;
+		border-radius: 10px;
 		position: absolute;
 		left: 0;
 		top: 0;
 		z-index: 1;
 		transition: var(--transition);
 	}
+
+	span {
+		transition: var(--transition);
+	}
 	&:hover {
 		&::before {
 			background-color: var(--whiteOpacity);
+		}
+		span {
+			transform: translate(2px, -2px);
+			transition: var(--transition);
 		}
 	}
 	&:active {
 		transform: var(--scale);
 		transition: var(--transition);
+	}
+}
+
+.buttonDefault {
+	background-color: var(--primary);
+	color: #fff;
+	border-radius: 10px;
+	&::before {
+		border-radius: 10px;
 	}
 }

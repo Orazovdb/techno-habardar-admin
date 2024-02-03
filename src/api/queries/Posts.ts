@@ -1,18 +1,13 @@
-import {put, post, deleter} from '../services/auth_helper'
-import {ObjectType, SaveChangesType} from '../Types/queryReturnTypes/UploadObject'
+import { request } from '../services/auth_helper_vue'
+import { CategoriesTypes } from '../Types/queryReturnTypes/Categories'
 
-export const uploadImage = async (data: any, config: any, obj: ObjectType) => {
-    return post(`upload/file?object=${JSON.stringify(obj)}`, data, config)
-}
+import ProfileAddTypes from '../Types/queryReturnTypes/UploadProfile'
 
-export const saveChanges = async (data: any, config: {}, obj: SaveChangesType) => {
-    return post(`admin/save-changes?object=${JSON.stringify(obj)}`, data, config)
-}
+export const ADD_FILE = ({ data }: any): Promise<any> =>
+	request({ url: `/admin/file`, data, file: true })
 
-export const uploadModel = async (modelGuid: string) => {
-    return put(`admin/upload-model/${modelGuid}`)
-}
+export const ADD_PROFILE = ({ data }: any): Promise<ProfileAddTypes> =>
+	request({ url: `/admin/update`, data })
 
-export const deleteUnacceptedModel = async (guid: string) => {
-    return deleter(`admin/delete-unaccepted-model/${guid}`)
-}
+export const ADD_CATEGORIES = ({ data }: any): Promise<CategoriesTypes> =>
+	request({ url: `/category/add`, data })

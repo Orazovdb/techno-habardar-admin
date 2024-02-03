@@ -1,12 +1,12 @@
-
-
 export const MENU = [
 	{
-		url: '/admin',
+		url: '/admin/dashboard',
 		icon: 'category',
+		title: 'Dashboard'
 	},
 	{
-		url: '/settings',
+		url: '/admin/categories',
 		icon: 'category',
+		title: 'Categories'
 	}
 ]

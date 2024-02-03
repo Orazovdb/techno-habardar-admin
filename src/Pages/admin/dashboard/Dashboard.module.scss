@@ -1,0 +1,21 @@
+.dashboard {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr;
+	.title {
+		color: var(--primary);
+		font-weight: 600;
+		font-size: 18px;
+		margin-bottom: 20px;
+	}
+	form {
+		background-color: #fff;
+		padding: 10px;
+		border-radius: 10px;
+		border: 1px solid var(--gray-200);
+	}
+	.row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 30px;
+	}
+}

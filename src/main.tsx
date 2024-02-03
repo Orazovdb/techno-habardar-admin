@@ -7,7 +7,7 @@ import './index.scss'
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			retry: 1
+			refetchOnWindowFocus: false
 		}
 	}
 })

@@ -14,20 +14,19 @@ const AdminMiddleware = (props: AdminMiddlewareProps) => {
 	const [loading, setLoading] = useState<boolean>(false)
 	useEffect(() => {
 		const token = localStorage.getItem('Authorization')
-		// const token = value ? value : ''
 
 		setLoading(true)
 		if (token == undefined) {
-			console.log('hello')
-			navigate({ to: '/login', replace: true })
+			navigate({ to: '/admin/login', replace: true })
 		} else if (token) {
-			console.log('Open privated page!!!')
-			navigate({ to: '/admin/', replace: true })
+			// navigate({ to: '/admin/dashboard', replace: true })
 		}
 		setLoading(false)
 	}, [])
 
-	return <div>{loading ? <Preloader /> : <>{children}</>}</div>
+	return (
+		<div className='h-100'>{loading ? <Preloader /> : <>{children}</>}</div>
+	)
 }
 
 export default AdminMiddleware

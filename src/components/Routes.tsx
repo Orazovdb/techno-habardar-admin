@@ -1,37 +1,51 @@
 import { Route } from '@tanstack/react-location'
 
-// Authmiddleware && AdminMiddlewre
-
-import Settings from '@/Pages/Settings/Settings'
-import Dashboard from '../Pages/Dashboard/Dashboard'
-import Login from '../Pages/Login/Login'
+import Categories from '@/pages/admin/categories/Categories'
+import Profile from '@/pages/admin/profile/Profile'
+import Dashboard from '../pages/admin/dashboard/Dashboard'
+import Login from '../pages/login/Login'
 import AdminMiddleware from './AdminMiddleware'
-
-// const localeValue: any = localStorage.getItem('language')
+import Layout from './Layout/Layout'
 
 const routes: Route[] = [
 	{
-		path: '/admin',
-		element: (
-			<AdminMiddleware>
-				<Dashboard />
-			</AdminMiddleware>
-		)
-	},
-
-	{
-		path: '/settings',
-		element: (
-			<AdminMiddleware>
-				<Settings />
-			</AdminMiddleware>
-		)
-	},
-
-	{
-		path: '/login',
+		path: '/admin/login',
 		element: <Login />
+	},
+
+	{
+		path: '/admin/profile',
+		element: (
+			<AdminMiddleware>
+				<Layout title='Изменить профиль'>
+					<Profile />
+				</Layout>
+			</AdminMiddleware>
+		)
+	},
+
+	{
+		path: '/admin/dashboard',
+		element: (
+			<AdminMiddleware>
+				<Layout title='Главная'>
+					<Dashboard />
+				</Layout>
+			</AdminMiddleware>
+		)
+	},
+
+	{
+		path: '/admin/categories',
+		element: (
+			<AdminMiddleware>
+				<Layout title='Категории'>
+					<Categories />
+				</Layout>
+			</AdminMiddleware>
+		)
 	}
+
 	// {
 	// 	path: '/cart',
 	// 	element: (

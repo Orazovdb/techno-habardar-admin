@@ -6,8 +6,7 @@ import { axiosInstance } from '../../api/axiosInstance'
 
 import toast, { Toaster } from 'react-hot-toast'
 
-import { useEffect } from 'react'
-import { Button } from '../../components/ui/button//Button'
+import { Button } from '../../components/ui/button/Button'
 import styles from './Login.module.scss'
 
 interface formikValues {
@@ -34,10 +33,8 @@ const Login = () => {
 				if (data) {
 					localStorage.setItem('Authorization', data.data.token)
 					toast.success('uspeshno')
-					setTimeout(() => {
-						navigate({ to: '/admin', replace: true })
-						resetForm()
-					}, 2000)
+					resetForm()
+					navigate({ to: '/admin/dashboard', replace: true })
 				} else {
 					toast.error(`Username or password error`)
 				}

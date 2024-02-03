@@ -1,7 +1,11 @@
-import {axiosPrivateInstance} from "../axiosInstance";
+import { axiosPrivateInstance } from "../axiosInstance"
 
 export async function get<R>(url: string, config = {}): Promise<R> {
-    return axiosPrivateInstance.get(url, {...config}).then((response: any) => response.data)
+    return axiosPrivateInstance.get(url, {...config}).then((response: any) => response.data.data)
+}
+
+export async function postProfile<R>(url: string, config = {}): Promise<R> {
+    return axiosPrivateInstance.post(url, {...config}).then((response: any) => response.data.data)
 }
 
 export async function post<T, R>(url:string, data?: any, config = {}): Promise<R> {

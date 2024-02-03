@@ -1,0 +1,45 @@
+.tableWrapper {
+	position: relative;
+	overflow: auto;
+	width: 100%;
+}
+.table {
+	width: 100%;
+	caption-side: bottom;
+	font-size: 14px;
+	font-weight: 600;
+	line-height: 20px;
+	background-color: var(--whiteOpacity3);
+	color: var(--primary);
+}
+.thead {
+	tr {
+		border-bottom-width: 1px;
+	}
+}
+.tbody {
+	tr {
+		&:last-child {
+			border: 0;
+		}
+	}
+}
+.tfoot {
+	border-top-width: 1px;
+	font-weight: 500;
+	tr {
+		&:last-child {
+			border-bottom-width: 0px;
+		}
+	}
+}
+.tr {
+	border-bottom-width: 1px;
+	transition-property: color, background-color, border-color,
+		text-decoration-color, fill, stroke;
+	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+	transition-duration: 150ms;
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+}

@@ -1,0 +1,36 @@
+.bodySkeleton {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	cursor: pointer;
+	.img {
+		width: 6vh;
+		height: 6vh;
+		border-radius: 50%;
+		background-color: var(--gray);
+		cursor: pointer;
+		animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	}
+
+	.content {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		div {
+			width: 6vw;
+			height: 1.3vh;
+			background-color: var(--gray);
+			border-radius: 4px;
+			animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+			&:last-child {
+				width: 4vw;
+			}
+		}
+	}
+}
+@keyframes pulse {
+	50% {
+		opacity: 0.5;
+	}
+}

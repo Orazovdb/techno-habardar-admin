@@ -1,0 +1,31 @@
+.languages {
+	margin-bottom: 10px;
+	.row {
+		display: flex;
+		gap: 10px;
+	}
+
+	.language {
+		p {
+			font-size: 12px;
+			color: var(--primary);
+			font-weight: 500;
+			padding: 6px;
+			border-radius: 6px;
+			text-align: center;
+			cursor: pointer;
+			transition: 0.2s all;
+			letter-spacing: 0.7px;
+			&:hover {
+				background-color: var(--blackOpacity);
+			}
+		}
+		&.active {
+			p {
+				color: #fff;
+				background-color: var(--primary);
+				transition: 0.2s all;
+			}
+		}
+	}
+}

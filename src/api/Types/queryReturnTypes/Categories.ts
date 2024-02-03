@@ -1,9 +1,7 @@
-type categories = {
-    cat_uuid: string,
-    cat_icon: string,
-    tm: string,
-    ru: string,
-    en: string
+export interface LanguageData {
+	[key: string]: string
 }
 
-export default categories
+export interface CategoriesTypes {
+	name: LanguageData
+}

@@ -3,6 +3,9 @@
 	height: 100vh;
 
 	.row {
+		height: 100%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
 	}
 
 	.left {
