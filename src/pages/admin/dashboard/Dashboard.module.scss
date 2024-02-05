@@ -1,6 +1,7 @@
 .dashboard {
 	display: grid;
-	grid-template-columns: 1.5fr 1fr;
+	grid-template-columns: 0.5fr 1fr;
+	gap: 30px;
 	.title {
 		color: var(--primary);
 		font-weight: 600;
@@ -8,11 +9,21 @@
 		margin-bottom: 20px;
 	}
 	form {
-		background-color: #fff;
-		padding: 10px;
+		padding: 14px;
 		border-radius: 10px;
 		border: 1px solid var(--gray-200);
+		background-color: #fff;
+
+		.flexColumn {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			.item {
+				flex: 1 1 auto;
+			}
+		}
 	}
+
 	.row {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
