@@ -1,13 +1,11 @@
 import { CategoriesTypes } from '@/api/Types/queryReturnTypes/Categories'
 import { GET_CATEGORIES } from '@/api/queries/Getters'
 import { ADD_CATEGORIES } from '@/api/queries/Posts'
-import CategoryCard from '@/components/cards/CategoryCard/CategoryCard'
 import Input from '@/components/ui/Input'
 import { Button, buttonVariants } from '@/components/ui/button/Button'
 import ChangeLanguage from '@/components/ui/change-language/ChangeLanguage'
 import IconComponent from '@/components/ui/icon/Icon'
-import List from '@/components/ui/list/List'
-import { ICategory } from '@/types/types'
+import ListBox from '@/components/ui/listbox/ListBox'
 import { SyntheticEvent, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
@@ -60,15 +58,14 @@ const Dashboard = () => {
 
 	const toggleLanguage = (key: string) => {
 		setActiveLang(key)
-		console.log(activeLang)
 	}
 
 	return (
 		<div className={styles.dashboard}>
 			<Toaster position='top-center' />
 			<form onSubmit={submitHandler}>
-				<div className={styles.row}>
-					<div>
+				<div className={styles.flexColumn}>
+					<div className={styles.item}>
 						<h1 className={styles.title}>Создать категорию</h1>
 						<ChangeLanguage
 							onSelectLanguage={toggleLanguage}
@@ -82,12 +79,34 @@ const Dashboard = () => {
 						/>
 					</div>
 					{/* <ScrollArea names={data} /> */}
-					<List
+					{/* <List
 						items={data}
 						renderItem={(name: ICategory) => (
 							<CategoryCard data={name} key={name.uuid} />
 						)}
-					/>
+					/> */}
+					<Button className={buttonVariants({ variant: 'default' })}>
+						<IconComponent icon='send' />
+						Post profile
+					</Button>
+				</div>
+			</form>
+			<form onSubmit={submitHandler}>
+				<div className={styles.row}>
+					<div>
+						<h1 className={styles.title}>Создать саб-категорию</h1>
+						<ChangeLanguage
+							onSelectLanguage={toggleLanguage}
+							activeLang={activeLang}
+						/>
+						<Input
+							onChange={e => handleChange(e.target.value)}
+							value={postData.name[activeLang]}
+							placeholder='...'
+							label='Имя саб-категории'
+						/>
+					</div>
+					<ListBox data={data} />
 					<div></div>
 					<Button className={buttonVariants({ variant: 'default' })}>
 						<IconComponent icon='send' />
