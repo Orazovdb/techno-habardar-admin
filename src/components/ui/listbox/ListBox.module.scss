@@ -33,10 +33,11 @@
 	.item {
 		color: var(--primary) !important;
 		position: relative;
-		padding: 10px 10px 10px 20px;
+		padding: 10px 10px 10px 35px;
 		text-transform: capitalize;
-		&.active {
-			color: red;
+		cursor: pointer;
+		&:hover {
+			background-color: var(--blackOpacity-100);
 		}
 		&.hi {
 			color: red;
@@ -44,17 +45,33 @@
 		}
 		.span {
 			color: var(--primary);
+			font-weight: 500;
 			&.active {
-				color: green;
+				font-weight: 700;
+			}
+		}
+		.crash {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			right: 20px;
+			padding: 8px;
+			border-radius: 50%;
+			transition: 0.3s all;
+			svg {
+				color: red;
+			}
+			&:hover {
+				background-color: #e78585af;
 			}
 		}
 		.icon {
 			position: absolute;
-			left: 0;
+			left: 10px;
 			top: 50%;
 			transform: translateY(-50%);
-			padding-left: 10px;
 			svg {
+				font-weight: 500;
 				color: var(--primary);
 			}
 		}

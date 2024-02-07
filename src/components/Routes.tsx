@@ -2,7 +2,7 @@ import { Route } from '@tanstack/react-location'
 
 import Categories from '@/pages/admin/categories/Categories'
 import Profile from '@/pages/admin/profile/Profile'
-import Dashboard from '../pages/admin/dashboard/Dashboard'
+import Dashboard from '@/pages/admin/dashboard/Dashboard'
 import Login from '../pages/login/Login'
 import AdminMiddleware from './AdminMiddleware'
 import Layout from './Layout/Layout'

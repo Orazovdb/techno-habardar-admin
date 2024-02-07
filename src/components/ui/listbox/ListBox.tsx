@@ -1,35 +1,34 @@
 import { Listbox, Transition } from '@headlessui/react'
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 
 import { ICategory } from '@/types/types'
 import IconComponent from '../icon/Icon'
 import styles from './ListBox.module.scss'
 
-const people = [
-	{ name: 'Wade Cooper' },
-	{ name: 'Arlene Mccoy' },
-	{ name: 'Devon Webb' },
-	{ name: 'Tom Cook' },
-	{ name: 'Tanya Fox' },
-	{ name: 'Hellen Schmidt' }
-]
-
-interface IProp {
-	data?: Array<ICategory>
+interface ChildProps {
+	selected: ICategory
+	setSelected: (newSelection: ICategory) => void
+	data?: ICategory[]
+	deleteItem: (uuid: any) => void
 }
 
-export default function ListBox({ data }: IProp) {
-	const [selected, setSelected] = useState(
-		data && data.length > 0 ? data[0] : null
-	)
-	console.log(selected)
-
+export default function ListBox({
+	selected,
+	setSelected,
+	data,
+	deleteItem
+}: ChildProps) {
 	return (
 		<div className={styles.listbox}>
 			<Listbox value={selected} onChange={setSelected}>
 				<div className={styles.container}>
 					<Listbox.Button className={styles.button}>
-						<span>{selected?.name.tm}</span>
+						{selected.name.tm ? (
+							<span>{selected?.name.tm}</span>
+						) : (
+							<span>Выберите категорию</span>
+						)}
+
 						<IconComponent icon='chevronUpDown' />
 					</Listbox.Button>
 					<Transition
@@ -61,6 +60,12 @@ export default function ListBox({ data }: IProp) {
 													<IconComponent icon='tick' />
 												</span>
 											) : null}
+											<div
+												className={styles.crash}
+												onClick={() => deleteItem(person.UUID)}
+											>
+												<IconComponent icon='crash' />
+											</div>
 										</>
 									)}
 								</Listbox.Option>

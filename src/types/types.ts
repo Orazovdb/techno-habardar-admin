@@ -5,6 +5,11 @@ export interface ICategoryLng {
 }
 
 export interface ICategory {
-	uuid: string
+	UUID: string
 	name: ICategoryLng
+}
+
+export interface ISubCategory {
+	catId: string
+	name: string
 }
