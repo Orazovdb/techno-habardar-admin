@@ -4,7 +4,7 @@
 	background-color: var(--primary);
 	color: #fff;
 	font-size: 14px;
-	font-weight: 400;
+	font-weight: 600;
 	text-transform: uppercase;
 	font-family: var(--font-ibm);
 	cursor: pointer;
@@ -14,6 +14,17 @@
 	gap: 10px;
 	align-items: center;
 	justify-content: center;
+	white-space: nowrap;
+	&.notActive {
+		background-color: var(--gray-200);
+		border: 2px solid var(--primary);
+		color: var(--primary);
+	}
+	&.delete {
+		background-color: rgb(209, 38, 38);
+		color: #fff;
+		text-transform: capitalize;
+	}
 	&::before {
 		content: '';
 		width: 100%;

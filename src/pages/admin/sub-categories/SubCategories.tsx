@@ -1,118 +1,57 @@
-import { GET_CATEGORIES } from '@/api/queries/Getters'
-import { ADD_SUBCATEGORIES, DELETE_CATEGORIES } from '@/api/queries/Posts'
+import { GET_SUBCATEGORIES } from '@/api/queries/Getters'
+import { DELETE_SUBCATEGORIES } from '@/api/queries/Posts'
 import PopupConfirm from '@/components/popup/PopUpConfirm'
-import PopupCategory from '@/components/popup/PopupCategory'
+import PopupSubCategory from '@/components/popup/PopupSubCategory'
 import { Button } from '@/components/ui/button/Button'
 import IconComponent from '@/components/ui/icon/Icon'
 import Table from '@/components/ui/table/Table'
 import tableStyles from '@/components/ui/table/Table.module.scss'
-import { CategoriesTypes, ICategory } from '@/types/types'
 import { useNavigate } from '@tanstack/react-location'
-import React, { SyntheticEvent, useState } from 'react'
+import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
-import styles from './Categories.module.scss'
+import styles from './SubCategories.module.scss'
 
-const Dashboard = () => {
-	const [activeSubLang, setActiveSubLang] = useState('tm')
-	const [catId, setCatId] = useState('')
-	const [nameSub, setNameSub] = useState<CategoriesTypes>({
-		name: {
-			tm: '',
-			ru: '',
-			en: ''
-		}
-	})
+const SubCategories = () => {
+	const { data, refetch } = useQuery(['getSubCategories'], () =>
+		GET_SUBCATEGORIES()
+	)
 
+	const [isPopupConfirm, setIsPopupConfirm] = useState(false)
 	const [uuid, setUuid] = useState('')
-	const { data, refetch } = useQuery(['getCategories'], () => GET_CATEGORIES())
-	const [selected, setSelected] = useState<ICategory>({
-		UUID: '',
-		slug: '',
-		name: {
-			tm: '',
-			ru: '',
-			en: ''
-		}
-	})
 
-	const { mutate: mutateDeleteCategory } = useMutation({
-		mutationKey: ['delete category'],
-		mutationFn: (data: any) => DELETE_CATEGORIES({ data }),
+	const { mutate: mutateDeleteSubCategory } = useMutation({
+		mutationKey: ['delete sub-category'],
+		mutationFn: (data: any) => DELETE_SUBCATEGORIES({ data }),
 		async onSuccess() {
 			toast.success('Deleted successfully!')
 		}
 	})
-
-	const { mutate: mutateSubCategory } = useMutation({
-		mutationKey: ['create sub categories'],
-		mutationFn: (data: any) => ADD_SUBCATEGORIES({ data }),
-		async onSuccess() {
-			toast.success('Posted sub-category successfully!')
-		}
-	})
-
-	const handleCategoryInputChange = (value: string) => {
-		setNameSub(prevData => ({
-			...prevData,
-			name: {
-				...prevData.name,
-				[activeSubLang]: value
-			}
-		}))
-	}
-
-	const submitSubCategory = (e: SyntheticEvent) => {
-		e.preventDefault()
-		if (!catId || !nameSub.name.tm || !nameSub.name.ru || !nameSub.name.en) {
-			toast.error('Выберите категорию или пополните поле!')
-		} else {
-			mutateSubCategory({
-				catId,
-				...nameSub
-			})
-			setSelected({
-				UUID: '',
-				slug: '',
-				name: {
-					tm: '',
-					ru: '',
-					en: ''
-				}
-			})
-			setNameSub({
-				name: { tm: '', ru: '', en: '' }
-			})
-			setTimeout(() => {
-				refetch()
-			}, 200)
-		}
-	}
-
-	const buttons = [
-		{ title: 'Категории', to: '/admin/categories' },
-		{ title: 'Суб-категории', isNotActive: true, to: '/admin/sub-categories' },
-		{ title: 'Авторы', isNotActive: true, to: '/admin/authors' }
-	]
-
-	const navigate = useNavigate()
-	const [isOpenPopup, setIsOpenPopup] = useState(false)
-	const [isPopupConfirm, setIsPopupConfirm] = useState(false)
-	const [itemEdit, setItemEdit] = useState<any>(null)
 	const popupConfirm = (uuid: any) => {
 		setIsPopupConfirm(true)
 		setUuid(uuid)
 	}
 
-	const deleteCategory = (uuid: any) => {
+	const deleteSubCategory = (uuid: any) => {
 		popupConfirm(uuid.UUID)
 		setUuid(uuid)
-		mutateDeleteCategory({ uuid })
+		mutateDeleteSubCategory({ uuid })
 		setIsPopupConfirm(false)
 		setTimeout(() => {
 			refetch()
 		}, 200)
 	}
+
+	const buttons = [
+		{ title: 'Категории', isNotActive: true, to: '/admin/categories' },
+		{ title: 'Суб-категории', to: '/admin/sub-categories' },
+		{ title: 'Авторы', isNotActive: true, to: '/admin/authors' }
+	]
+
+	const navigate = useNavigate()
+	const [isOpenPopup, setIsOpenPopup] = useState(false)
+	const [itemEdit, setItemEdit] = useState<any>(null)
+
 	const edit = (item: any) => {
 		setIsOpenPopup(true)
 		setItemEdit(item)
@@ -126,7 +65,7 @@ const Dashboard = () => {
 	return (
 		<div className={styles.dashboard}>
 			<Toaster position='top-center' />
-			<PopupCategory
+			<PopupSubCategory
 				isOpen={isOpenPopup}
 				handleClose={closePopup}
 				itemProp={itemEdit}
@@ -135,13 +74,13 @@ const Dashboard = () => {
 				isOpen={isPopupConfirm}
 				handleClose={() => setIsPopupConfirm(false)}
 				message='Вы действительно хотите удалить?'
-				handleSend={() => deleteCategory(uuid)}
+				handleSend={() => deleteSubCategory(uuid)}
 			/>
 			<div className={styles.header}>
 				<h1 className={styles.title}>Категории</h1>
 				<Button onClick={() => setIsOpenPopup(true)}>
 					<IconComponent icon='plus' />
-					Добавить категорию
+					Добавить саб-категорию
 				</Button>
 			</div>
 			<div className={styles.buttons}>
@@ -155,7 +94,6 @@ const Dashboard = () => {
 					</Button>
 				))}
 			</div>
-
 			<Table>
 				<thead>
 					<tr>
@@ -180,7 +118,7 @@ const Dashboard = () => {
 												<IconComponent icon='edit' />
 											</div>
 											<div
-												onClick={() => popupConfirm(item.UUID)}
+												onClick={() => popupConfirm(item.catId)}
 												className={tableStyles.crash}
 											>
 												<IconComponent icon='crash' />
@@ -204,4 +142,4 @@ const Dashboard = () => {
 	)
 }
 
-export default Dashboard
+export default SubCategories

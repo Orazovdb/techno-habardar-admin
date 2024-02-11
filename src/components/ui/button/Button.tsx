@@ -1,44 +1,33 @@
-import { Slot } from '@radix-ui/react-slot'
-import { cva, type VariantProps } from 'class-variance-authority'
+import classNames from 'classnames/bind'
 import * as React from 'react'
-
-import { cn } from '@/lib/utils'
 import styles from './Button.module.scss'
 
-const buttonVariants = cva(styles.button, {
-	variants: {
-		variant: {
-			default: '',
-			login: styles.buttonDefault
-		},
-		size: {
-			default: ''
-		}
-	},
-	defaultVariants: {
-		variant: 'default',
-		size: 'default'
-	}
-})
+const cx = classNames.bind(styles)
 
-export interface ButtonProps
-	extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-		VariantProps<typeof buttonVariants> {
-	asChild?: boolean
+interface ButtonProps {
+	children: React.ReactNode
+	notActive?: Boolean
+	deleteButton?: Boolean
+	onClick?: (e: any) => void
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-	({ className, variant, size, asChild = false, ...props }, ref) => {
-		const Comp = asChild ? Slot : 'button'
+	({ children, notActive, deleteButton, onClick }, ref) => {
 		return (
-			<Comp
-				className={cn(buttonVariants({ variant, size, className }))}
+			<button
+				onClick={onClick}
+				className={`${cx({
+					button: true,
+					notActive: notActive,
+					delete: deleteButton
+				})}`}
 				ref={ref}
-				{...props}
-			/>
+			>
+				{children}
+			</button>
 		)
 	}
 )
 Button.displayName = 'Button'
 
-export { Button, buttonVariants }
+export { Button }

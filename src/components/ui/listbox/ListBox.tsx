@@ -2,27 +2,38 @@ import { Listbox, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 
 import { ICategory } from '@/types/types'
+import classNames from 'classnames/bind'
 import IconComponent from '../icon/Icon'
 import styles from './ListBox.module.scss'
+
+const cx = classNames.bind(styles)
 
 interface ChildProps {
 	selected: ICategory
 	setSelected: (newSelection: ICategory) => void
 	data?: ICategory[]
-	deleteItem: (uuid: any) => void
+	isError: Boolean
+	isShake: Boolean
 }
 
 export default function ListBox({
 	selected,
 	setSelected,
 	data,
-	deleteItem
+	isError,
+	isShake
 }: ChildProps) {
 	return (
 		<div className={styles.listbox}>
 			<Listbox value={selected} onChange={setSelected}>
 				<div className={styles.container}>
-					<Listbox.Button className={styles.button}>
+					<Listbox.Button
+						className={cx({
+							button: true,
+							error: isError,
+							shake: isShake
+						})}
+					>
 						{selected.name.tm ? (
 							<span>{selected?.name.tm}</span>
 						) : (
@@ -60,12 +71,6 @@ export default function ListBox({
 													<IconComponent icon='tick' />
 												</span>
 											) : null}
-											<div
-												className={styles.crash}
-												onClick={() => deleteItem(person.UUID)}
-											>
-												<IconComponent icon='crash' />
-											</div>
 										</>
 									)}
 								</Listbox.Option>

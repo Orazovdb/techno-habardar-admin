@@ -13,9 +13,35 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+		border: 1px solid transparent;
 		span {
 			font-size: 14px;
 			font-weight: 600;
+		}
+		&.error {
+			border: 1px solid red;
+			box-shadow: 0.2px 0.2px 3px red;
+			color: red;
+		}
+		&.shake {
+			animation: 0.2s invalid forwards;
+		}
+		@keyframes invalid {
+			0% {
+				transform: translateX(0px);
+			}
+			25% {
+				transform: translateX(5px);
+			}
+			50% {
+				transform: translateX(0px);
+			}
+			75% {
+				transform: translateX(-5px);
+			}
+			100% {
+				transform: translateX(0px);
+			}
 		}
 	}
 	.list {

@@ -53,5 +53,5 @@ export const request = async ({
 	}
 
 	const response = await axios(config)
-	return response.data
+	return response.data.data
 }

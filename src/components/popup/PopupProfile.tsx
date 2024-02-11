@@ -4,18 +4,19 @@ import Input from '@/components/ui/Input'
 import Avatar from '@/components/ui/avatar-uploader/AvatarUploader'
 import { Button } from '@/components/ui/button/Button'
 import IconComponent from '@/components/ui/icon/Icon'
+import { IPopup } from '@/types/types'
 import { SyntheticEvent, useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
-import styles from './Profile.module.scss'
+import Popup from './Popup'
+import styles from './Popup.module.scss'
 
-const Profile = () => {
+const PopupProfile = ({ handleClose, isOpen }: IPopup) => {
 	const [fullName, setFullName] = useState('')
 	const [role, setRole] = useState('')
 	const [phoneNumber, setPhoneNumber] = useState('')
 	const [uuid, setUuid] = useState('')
 	const [avatar, setAvatar] = useState('')
-
 	const { data, refetch, isLoading } = useQuery(['getProfile'], () =>
 		GET_PROFILE()
 	)
@@ -42,75 +43,65 @@ const Profile = () => {
 		}
 	})
 
-	// const handleChange = async (e: any) => {
-	// 	console.log(e.target.files[0])
-	// 	try {
-	// 		const formData = new FormData()
-	// 		formData.append('file', e.target.files[0])
-	// 		const config = {
-	// 			method: 'POST',
-	// 			headers: {
-	// 				'Content-Type': 'multipart/form-data'
-	// 			}
-	// 		}
-	// 		const res: any = await UPLOAD_FILE(formData, config)
-
-	// 		if (res.status) {
-	// 			setAvatar(res.data)
-	// 			refetch()
-	// 			console.log(avatar, 'avatar')
-	// 		}
-	// 	} catch (error) {
-	// 		console.log(error)
-	// 	}
-	// }
-
 	const submitHandler = (e: SyntheticEvent) => {
 		e.preventDefault()
-		mutate({ fullName, avatar, phoneNumber, role, uuid })
+		if (!fullName || !avatar || !phoneNumber || !role) {
+			toast.error('Пополните поле!')
+		} else {
+			mutate({ fullName, avatar, phoneNumber, role, uuid })
+			handleClose()
+		}
 	}
 
 	return (
-		<div className={styles.profile}>
-			<Toaster position='top-center' />
-
-			<form onSubmit={submitHandler}>
-				<Avatar imgPath={avatar} onUploadFile={uploadFile} label='Avatar' />
-				<Input
-					type='text'
-					onChange={e => setFullName(e.target.value)}
-					value={fullName}
-					placeholder='name'
-					label='Full name'
+		<Popup title='Изменить профиль' isOpen={isOpen} handleClose={handleClose}>
+			<div className={styles.grid}>
+				<Toaster position='top-center' />
+				<Avatar
+					imgPath={avatar}
+					onUploadFile={uploadFile}
+					label='Картинка профиля'
 				/>
-				<Input
-					type='text'
-					onChange={e => setPhoneNumber(e.target.value)}
-					value={phoneNumber}
-					placeholder='phoneNumber'
-					label='Phone number'
-				/>
-				<Input
-					type='text'
-					onChange={e => setRole(e.target.value)}
-					value={role}
-					placeholder='role'
-					label='Role'
-				/>
+				<div className={styles.flexColumn}>
+					<Input
+						type='text'
+						onChange={e => setFullName(e.target.value)}
+						value={fullName}
+						placeholder='name'
+						label='Полное имя'
+						className={styles.inputProfile}
+					/>
+					<Input
+						type='text'
+						onChange={e => setPhoneNumber(e.target.value)}
+						value={phoneNumber}
+						placeholder='phoneNumber'
+						label='Номер телефона'
+						className={styles.inputProfile}
+					/>
+					<Input
+						type='text'
+						onChange={e => setRole(e.target.value)}
+						value={role}
+						placeholder='role'
+						label='Роль'
+						className={styles.inputProfile}
+					/>
+				</div>
 				<div></div>
-				<Button>
+				<Button onClick={submitHandler}>
 					{isLoading ? (
 						'Loading...'
 					) : (
-						<div>
+						<>
 							<IconComponent icon='send' />
-							Отправить
-						</div>
+							Сохранить
+						</>
 					)}
 				</Button>
-			</form>
-		</div>
+			</div>
+		</Popup>
 	)
 }
 
-export default Profile
+export default PopupProfile

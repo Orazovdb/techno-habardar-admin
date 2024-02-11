@@ -1,8 +1,9 @@
 import { Route } from '@tanstack/react-location'
 
+import Authors from '@/pages/admin/authors/Authors'
 import Categories from '@/pages/admin/categories/Categories'
 import Profile from '@/pages/admin/profile/Profile'
-import Dashboard from '@/pages/admin/dashboard/Dashboard'
+import SubCategories from '@/pages/admin/sub-categories/SubCategories'
 import Login from '../pages/login/Login'
 import AdminMiddleware from './AdminMiddleware'
 import Layout from './Layout/Layout'
@@ -17,19 +18,8 @@ const routes: Route[] = [
 		path: '/admin/profile',
 		element: (
 			<AdminMiddleware>
-				<Layout title='Изменить профиль'>
+				<Layout>
 					<Profile />
-				</Layout>
-			</AdminMiddleware>
-		)
-	},
-
-	{
-		path: '/admin/dashboard',
-		element: (
-			<AdminMiddleware>
-				<Layout title='Главная'>
-					<Dashboard />
 				</Layout>
 			</AdminMiddleware>
 		)
@@ -39,13 +29,34 @@ const routes: Route[] = [
 		path: '/admin/categories',
 		element: (
 			<AdminMiddleware>
-				<Layout title='Категории'>
+				<Layout>
 					<Categories />
 				</Layout>
 			</AdminMiddleware>
 		)
-	}
+	},
 
+	{
+		path: '/admin/sub-categories',
+		element: (
+			<AdminMiddleware>
+				<Layout>
+					<SubCategories />
+				</Layout>
+			</AdminMiddleware>
+		)
+	},
+
+	{
+		path: '/admin/authors',
+		element: (
+			<AdminMiddleware>
+				<Layout>
+					<Authors />
+				</Layout>
+			</AdminMiddleware>
+		)
+	}
 	// {
 	// 	path: '/cart',
 	// 	element: (
