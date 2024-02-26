@@ -30,6 +30,7 @@ const Profile = () => {
 
 	const uploadFile = (file: any) => {
 		setAvatar(file)
+		console.log(file)
 	}
 
 	const { mutate } = useMutation({

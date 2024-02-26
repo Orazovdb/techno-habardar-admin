@@ -44,8 +44,9 @@ const SubCategories = () => {
 
 	const buttons = [
 		{ title: 'Категории', isNotActive: true, to: '/admin/categories' },
-		{ title: 'Суб-категории', to: '/admin/sub-categories' },
-		{ title: 'Авторы', isNotActive: true, to: '/admin/authors' }
+		{ title: 'Под-категории', to: '/admin/sub-categories' },
+		{ title: 'Авторы', isNotActive: true, to: '/admin/authors' },
+		{ title: 'Теги', isNotActive: true, to: '/admin/tags' }
 	]
 
 	const navigate = useNavigate()
@@ -77,10 +78,10 @@ const SubCategories = () => {
 				handleSend={() => deleteSubCategory(uuid)}
 			/>
 			<div className={styles.header}>
-				<h1 className={styles.title}>Категории</h1>
+				<h1 className={styles.title}>Под-категории</h1>
 				<Button onClick={() => setIsOpenPopup(true)}>
 					<IconComponent icon='plus' />
-					Добавить саб-категорию
+					Добавить под-категорию
 				</Button>
 			</div>
 			<div className={styles.buttons}>
@@ -98,7 +99,7 @@ const SubCategories = () => {
 				<thead>
 					<tr>
 						<th>№</th>
-						<th>Имя категории</th>
+						<th>Имя под-категории</th>
 						<th>Действия</th>
 					</tr>
 				</thead>
@@ -108,7 +109,7 @@ const SubCategories = () => {
 							{data?.map((item, i) => (
 								<tr key={i}>
 									<td>{i + 1}</td>
-									<td>{item?.name.tm}</td>
+									<td>{item?.name?.tm}</td>
 									<td>
 										<div className={tableStyles.actions}>
 											<div
@@ -118,7 +119,7 @@ const SubCategories = () => {
 												<IconComponent icon='edit' />
 											</div>
 											<div
-												onClick={() => popupConfirm(item.catId)}
+												onClick={() => popupConfirm(item?.UUID)}
 												className={tableStyles.crash}
 											>
 												<IconComponent icon='crash' />
@@ -132,7 +133,7 @@ const SubCategories = () => {
 						<tr>
 							<td></td>
 							<td className={tableStyles.empty}>
-								Пусто, добавьте категорию...
+								Пусто, добавьте что нибудь...
 							</td>
 						</tr>
 					)}

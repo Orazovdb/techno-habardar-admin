@@ -1,4 +1,4 @@
-import { GET_CATEGORIES, GET_SUBCATEGORIES } from '@/api/queries/Getters'
+import { GET_SUBCATEGORIES } from '@/api/queries/Getters'
 import { ADD_SUBCATEGORIES } from '@/api/queries/Posts'
 import { Button } from '@/components/ui/button/Button'
 import IconComponent from '@/components/ui/icon/Icon'
@@ -9,10 +9,13 @@ import { useMutation, useQuery } from 'react-query'
 import Input from '../ui/Input'
 import ChangeLanguage from '../ui/change-language/ChangeLanguage'
 import ListBox from '../ui/listbox/ListBox'
+import MultiSelect from '../ui/multiselect/MultiSelect'
+import Tiptap from '../ui/tiptap/TipTap'
 import Popup from './Popup'
 import styles from './Popup.module.scss'
+import TipTap from '../ui/tiptap/TipTap'
 
-const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
+const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 	const [isError, setIsError] = useState(false)
 	const [isShake, setIsShake] = useState(false)
 	const [activeLang, setActiveLang] = useState('tm')
@@ -36,7 +39,107 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		}
 	})
 
-	const { data } = useQuery(['getCategories'], () => GET_CATEGORIES())
+	// const { data } = useQuery(['getCategories'], () => GET_CATEGORIES())
+	const data = [
+		{
+			UUID: '111',
+			name: {
+				tm: 'bla',
+				ru: 'bla',
+				en: 'bla'
+			},
+			slug: 'slug',
+			sub_categories: [
+				{
+					UUID: '111',
+					name: {
+						tm: 'bla',
+						ru: 'bla',
+						en: 'bla'
+					},
+					slug: 'slug'
+				}
+			]
+		},
+		{
+			UUID: '111',
+			name: {
+				tm: 'bla',
+				ru: 'bla',
+				en: 'bla'
+			},
+			slug: 'slug',
+			sub_categories: [
+				{
+					UUID: '111',
+					name: {
+						tm: 'bla',
+						ru: 'bla',
+						en: 'bla'
+					},
+					slug: 'slug'
+				}
+			]
+		},
+		{
+			UUID: '111',
+			name: {
+				tm: 'bla',
+				ru: 'bla',
+				en: 'bla'
+			},
+			slug: 'slug',
+			sub_categories: [
+				{
+					UUID: '111',
+					name: {
+						tm: 'bla',
+						ru: 'bla',
+						en: 'bla'
+					},
+					slug: 'slug'
+				},
+				{
+					UUID: '111',
+					name: {
+						tm: 'bla',
+						ru: 'bla',
+						en: 'bla'
+					},
+					slug: 'slug'
+				},
+				{
+					UUID: '111',
+					name: {
+						tm: 'bla',
+						ru: 'bla',
+						en: 'bla'
+					},
+					slug: 'slug'
+				}
+			]
+		},
+		{
+			UUID: '111',
+			name: {
+				tm: 'bla',
+				ru: 'bla',
+				en: 'bla'
+			},
+			slug: 'slug',
+			sub_categories: [
+				{
+					UUID: '111',
+					name: {
+						tm: 'bla',
+						ru: 'bla',
+						en: 'bla'
+					},
+					slug: 'slug'
+				}
+			]
+		}
+	]
 	const { refetch } = useQuery(['getSubCategories'], () => GET_SUBCATEGORIES())
 
 	const { mutate: mutateSubCategory } = useMutation({
@@ -151,11 +254,14 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		handleClose()
 	}
 
+	const fc = () => {}
+
 	return (
 		<Popup
-			title='Добавить саб-категорию'
+			title='Добавить посты'
 			isOpen={isOpen}
 			handleClose={handleClosePopUp}
+			width='50vw'
 		>
 			<div className={styles.item}>
 				<ChangeLanguage
@@ -186,6 +292,14 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 				isError={isError}
 				isShake={isShake}
 			/>
+			<MultiSelect
+				deleteCategory={fc}
+				selectedCategories={data}
+				categories={data}
+				selectCategory={fc}
+			/>
+			<TipTap />
+
 			<div></div>
 			<Button onClick={submitSubCategory}>
 				<IconComponent icon='send' />
@@ -199,4 +313,4 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 	)
 }
 
-export default PopupSubCategory
+export default PopupPost

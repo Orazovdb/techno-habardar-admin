@@ -1,4 +1,4 @@
-import { IAuthorGet, ICategory, ISubCategory } from '@/types/types'
+import { IAuthorGet, ICategory, ISubCategory, ITagsGet } from '@/types/types'
 import ProfileType from '../Types/queryReturnTypes/Profile'
 import { get, postProfile } from '../services/auth_helper'
 import { request } from '../services/auth_helper_vue'
@@ -16,4 +16,8 @@ export const GET_SUBCATEGORIES = (): Promise<ISubCategory[]> => {
 }
 
 export const GET_AUTHOR = ({ params }: any): Promise<IAuthorGet> =>
-	request({ url: `/author`, method: 'get', params: params })
+	request({ url: `/author`, method: 'get' })
+// params: params
+
+export const GET_TAGS = ({ params }: any): Promise<ITagsGet> =>
+	request({ url: `/tag`, method: 'get', params: params })

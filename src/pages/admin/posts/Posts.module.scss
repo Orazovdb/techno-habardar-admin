@@ -1,0 +1,44 @@
+.dashboard {
+	.header {
+		display: flex;
+		justify-content: space-between;
+	}
+	.title {
+		color: var(--primary);
+		font-weight: 600;
+		font-size: 22px;
+		margin-bottom: 20px;
+	}
+
+	.buttons {
+		display: flex;
+		gap: 10px;
+	}
+
+	form {
+		padding: 14px;
+		border-radius: 10px;
+		border: 1px solid var(--gray-200);
+		background-color: #fff;
+
+		.flexColumn {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			gap: 30px;
+			.item {
+				flex: 1 1 auto;
+			}
+		}
+	}
+
+	.row {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		gap: 14px;
+		.item {
+			flex: 1 1 auto;
+		}
+	}
+}

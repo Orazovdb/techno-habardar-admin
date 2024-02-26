@@ -4,9 +4,11 @@ import Authors from '@/pages/admin/authors/Authors'
 import Categories from '@/pages/admin/categories/Categories'
 import Profile from '@/pages/admin/profile/Profile'
 import SubCategories from '@/pages/admin/sub-categories/SubCategories'
+import Tags from '@/pages/admin/tags/Tags'
 import Login from '../pages/login/Login'
 import AdminMiddleware from './AdminMiddleware'
 import Layout from './Layout/Layout'
+import Posts from '@/pages/admin/posts/Posts'
 
 const routes: Route[] = [
 	{
@@ -53,6 +55,27 @@ const routes: Route[] = [
 			<AdminMiddleware>
 				<Layout>
 					<Authors />
+				</Layout>
+			</AdminMiddleware>
+		)
+	},
+	{
+		path: '/admin/tags',
+		element: (
+			<AdminMiddleware>
+				<Layout>
+					<Tags />
+				</Layout>
+			</AdminMiddleware>
+		)
+	},
+
+	{
+		path: '/admin/posts',
+		element: (
+			<AdminMiddleware>
+				<Layout>
+					<Posts />
 				</Layout>
 			</AdminMiddleware>
 		)

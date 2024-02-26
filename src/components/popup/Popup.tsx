@@ -1,9 +1,10 @@
 import { IPopup } from '@/types/types'
 import classNames from 'classnames/bind'
+import IconComponent from '../ui/icon/Icon'
 import styles from './Popup.module.scss'
 const cx = classNames.bind(styles)
 
-const Popup = ({ title, handleClose, isOpen, children }: IPopup) => {
+const Popup = ({ title, handleClose, isOpen, children, width }: IPopup) => {
 	return (
 		<>
 			{isOpen && (
@@ -15,10 +16,16 @@ const Popup = ({ title, handleClose, isOpen, children }: IPopup) => {
 					onClick={handleClose}
 				>
 					<div className={styles.wrapper}>
-						<div onClick={e => e.stopPropagation()} className={styles.box}>
+						<div
+							style={{
+								minWidth: width
+							}}
+							onClick={e => e.stopPropagation()}
+							className={styles.box}
+						>
 							<div className={styles.close}>
 								<h1>{title}</h1>
-								<span onClick={handleClose}>X</span>
+								<IconComponent onClick={handleClose} icon='close' />
 							</div>
 							<div className={styles.body}>{children}</div>
 						</div>

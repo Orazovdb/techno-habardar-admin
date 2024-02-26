@@ -20,6 +20,9 @@ const Sidebar = () => {
 	const [isOpenPopup, setIsOpenPopup] = useState(false)
 	const [isProfile, setIsProfile] = useState(false)
 	const URL_NAME = ['/admin/sub-categories', '/admin/authors']
+	if (match.pathname === 'Categories') {
+		
+	}
 	return (
 		<>
 			<PopupProfile
@@ -59,9 +62,9 @@ const Sidebar = () => {
 								to={item.url}
 								key={item.url}
 								className={cn({
-									[styles.active]:
-										match.pathname === item.url ||
-										(item.title === 'Categories' && URL_NAME)
+									[styles.active]: match.pathname === item.url
+									// (item.title === 'Categories' && URL_NAME) ||
+									// (item.title === 'Посты' && '/admin/posts')
 								})}
 							>
 								<div className={styles.icon}>

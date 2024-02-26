@@ -35,9 +35,12 @@
 			box-shadow: 0.2px 0.2px 2px #fff;
 			border-radius: 10px;
 			min-width: 20vw;
+			max-width: 70vw;
 			opacity: 0;
 			transition: 0.2s all;
 			cursor: auto;
+			max-height: 80vh;
+			overflow: auto;
 
 			.close {
 				display: flex;

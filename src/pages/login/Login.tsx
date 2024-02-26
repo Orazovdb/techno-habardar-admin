@@ -34,7 +34,7 @@ const Login = () => {
 					localStorage.setItem('Authorization', data.data.token)
 					toast.success('uspeshno')
 					resetForm()
-					navigate({ to: '/admin/dashboard', replace: true })
+					navigate({ to: '/admin/categories', replace: true })
 				} else {
 					toast.error(`Username or password error`)
 				}

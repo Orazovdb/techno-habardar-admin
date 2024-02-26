@@ -2,37 +2,36 @@ export interface LanguageData {
 	[key: string]: string
 }
 
-export interface IPopup {
-	title?: string
-	handleClose: () => void
-	isOpen: Boolean
-	children?: React.ReactNode
-	message?: string
-	handleSend?: (e: any) => void
-	itemProp?: any
-}
-
 export interface ICategoryLng {
 	tm: string
 	ru: string
 	en: string
 }
 
-export interface CategoriesTypes {
-	UUID?: string
-	name: LanguageData
+export interface IPopup {
+	children?: React.ReactNode
+	title?: string
+	width?: string
+	message?: string
+	itemProp?: any
+	isOpen: Boolean
+	handleClose: () => void
+	handleSend?: (e: any) => void
 }
 
 export interface ICategory {
 	UUID?: string
+	slug?: string
 	name: LanguageData
-	slug: string
+	sub_categories?: ICategory[]
 }
 
 export interface ISubCategory {
+	UUID?: string
 	catId?: string
+	slug?: string
 	name: LanguageData
-	slug: string
+	catName?: LanguageData
 }
 
 export interface IAuthor {
@@ -43,4 +42,14 @@ export interface IAuthor {
 
 export interface IAuthorGet {
 	authors: IAuthor[]
+}
+
+export interface ITags {
+	UUID?: string
+	slug: string
+	name: LanguageData
+}
+
+export interface ITagsGet {
+	tags: ITags[]
 }

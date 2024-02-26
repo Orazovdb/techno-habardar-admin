@@ -1,7 +1,7 @@
-import { GET_AUTHOR } from '@/api/queries/Getters'
-import { DELETE_AUTHOR } from '@/api/queries/Posts'
+import { GET_SUBCATEGORIES } from '@/api/queries/Getters'
+import { DELETE_SUBCATEGORIES } from '@/api/queries/Posts'
 import PopupConfirm from '@/components/popup/PopUpConfirm'
-import PopupAuthor from '@/components/popup/PopupAuthor'
+import PopupPost from '@/components/popup/PopupPosts'
 import { Button } from '@/components/ui/button/Button'
 import IconComponent from '@/components/ui/icon/Icon'
 import Table from '@/components/ui/table/Table'
@@ -10,59 +10,49 @@ import { useNavigate } from '@tanstack/react-location'
 import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
-import styles from './Authors.module.scss'
+import styles from './Posts.module.scss'
 
-const Authors = () => {
-	const [uuid, setUuid] = useState('')
-	const [limit, setLimit] = useState(10)
-	const [page, setPage] = useState(1)
-	const { data, refetch } = useQuery(['getAuthor'], () =>
-		GET_AUTHOR({
-			// params: {
-			// 	limit: 10,
-			// 	page: 1
-			// }
-		})
+const Posts = () => {
+	const { data, refetch } = useQuery(['getSubCategories'], () =>
+		GET_SUBCATEGORIES()
 	)
-	// const [authors, setAuthors] = useState<any>(null)
-	// useEffect(() => {
 
-	// setAuthors(data?.authors)
-	// }, [page])
+	const [isPopupConfirm, setIsPopupConfirm] = useState(false)
+	const [uuid, setUuid] = useState('')
 
-	const { mutate: mutateDeleteAuthor } = useMutation({
-		mutationKey: ['delete author'],
-		mutationFn: (data: any) => DELETE_AUTHOR({ data: { uuid } }),
+	const { mutate: mutateDeleteSubCategory } = useMutation({
+		mutationKey: ['delete'],
+		mutationFn: (data: any) => DELETE_SUBCATEGORIES({ data }),
 		async onSuccess() {
 			toast.success('Deleted successfully!')
 		}
 	})
-
-	const buttons = [
-		{ title: 'Категории', isNotActive: true, to: '/admin/categories' },
-		{ title: 'Под-категории', isNotActive: true, to: '/admin/sub-categories' },
-		{ title: 'Авторы', to: '/admin/authors' },
-		{ title: 'Теги', isNotActive: true, to: '/admin/tags' }
-	]
-
-	const navigate = useNavigate()
-	const [isOpenPopup, setIsOpenPopup] = useState(false)
-	const [isPopupConfirm, setIsPopupConfirm] = useState(false)
-	const [itemEdit, setItemEdit] = useState<any>(null)
 	const popupConfirm = (uuid: any) => {
 		setIsPopupConfirm(true)
 		setUuid(uuid)
 	}
 
-	const deleteAuthor = (uuid: any) => {
-		popupConfirm(uuid)
+	const deleteSubCategory = (uuid: any) => {
+		popupConfirm(uuid.UUID)
 		setUuid(uuid)
-		mutateDeleteAuthor({})
+		mutateDeleteSubCategory({ uuid })
 		setIsPopupConfirm(false)
 		setTimeout(() => {
 			refetch()
 		}, 200)
 	}
+
+	const buttons = [
+		{ title: 'Категории', isNotActive: true, to: '/admin/categories' },
+		{ title: 'Под-категории', to: '/admin/sub-categories' },
+		{ title: 'Авторы', isNotActive: true, to: '/admin/authors' },
+		{ title: 'Теги', isNotActive: true, to: '/admin/tags' }
+	]
+
+	const navigate = useNavigate()
+	const [isOpenPopup, setIsOpenPopup] = useState(false)
+	const [itemEdit, setItemEdit] = useState<any>(null)
+
 	const edit = (item: any) => {
 		setIsOpenPopup(true)
 		setItemEdit(item)
@@ -70,12 +60,13 @@ const Authors = () => {
 
 	const closePopup = () => {
 		setIsOpenPopup(false)
+		setItemEdit(null)
 	}
 
 	return (
 		<div className={styles.dashboard}>
 			<Toaster position='top-center' />
-			<PopupAuthor
+			<PopupPost
 				isOpen={isOpenPopup}
 				handleClose={closePopup}
 				itemProp={itemEdit}
@@ -84,13 +75,13 @@ const Authors = () => {
 				isOpen={isPopupConfirm}
 				handleClose={() => setIsPopupConfirm(false)}
 				message='Вы действительно хотите удалить?'
-				handleSend={() => deleteAuthor(uuid)}
+				handleSend={() => deleteSubCategory(uuid)}
 			/>
 			<div className={styles.header}>
-				<h1 className={styles.title}>Авторы</h1>
+				<h1 className={styles.title}>Посты</h1>
 				<Button onClick={() => setIsOpenPopup(true)}>
 					<IconComponent icon='plus' />
-					Добавить автора
+					Добавить посты
 				</Button>
 			</div>
 			<div className={styles.buttons}>
@@ -108,17 +99,17 @@ const Authors = () => {
 				<thead>
 					<tr>
 						<th>№</th>
-						<th>Имя автора</th>
+						<th>Имя поста</th>
 						<th>Действия</th>
 					</tr>
 				</thead>
 				<tbody>
-					{data?.authors?.length ? (
+					{data?.length ? (
 						<React.Fragment>
-							{data?.authors?.map((item: any, i: number) => (
+							{data?.map((item, i) => (
 								<tr key={i}>
 									<td>{i + 1}</td>
-									<td>{item?.name.tm}</td>
+									<td>{item?.name?.tm}</td>
 									<td>
 										<div className={tableStyles.actions}>
 											<div
@@ -128,7 +119,7 @@ const Authors = () => {
 												<IconComponent icon='edit' />
 											</div>
 											<div
-												onClick={() => popupConfirm(item.UUID)}
+												onClick={() => popupConfirm(item?.UUID)}
 												className={tableStyles.crash}
 											>
 												<IconComponent icon='crash' />
@@ -152,4 +143,4 @@ const Authors = () => {
 	)
 }
 
-export default Authors
+export default Posts

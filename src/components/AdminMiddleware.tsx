@@ -2,7 +2,6 @@ import { useNavigate } from '@tanstack/react-location'
 import { ReactNode, useEffect, useState } from 'react'
 
 /// comps
-import Preloader from '../components/ui/Preloader/Preloader'
 
 type AdminMiddlewareProps = {
 	children: ReactNode
@@ -19,13 +18,13 @@ const AdminMiddleware = (props: AdminMiddlewareProps) => {
 		if (token == undefined) {
 			navigate({ to: '/admin/login', replace: true })
 		} else if (token) {
-			// navigate({ to: '/admin/dashboard', replace: true })
+			navigate({ to: '/admin/categories', replace: true })
 		}
 		setLoading(false)
 	}, [])
 
 	return (
-		<div className='h-100'>{loading ? <Preloader /> : <>{children}</>}</div>
+		<div className='h-100'>{loading ? <>Loading...</> : <>{children}</>}</div>
 	)
 }
 

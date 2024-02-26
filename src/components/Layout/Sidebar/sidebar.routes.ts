@@ -5,8 +5,8 @@ export const MENU = [
 		title: 'Categories'
 	},
 	{
-		url: '/admin/d',
+		url: '/admin/posts',
 		icon: 'category',
-		title: 'test'
+		title: 'Посты'
 	}
 ]

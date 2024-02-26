@@ -1,31 +1,24 @@
-import { GET_AUTHOR } from '@/api/queries/Getters'
-import { ADD_AUTHOR } from '@/api/queries/Posts'
-import { IAuthor, IPopup } from '@/types/types'
+import { GET_TAGS } from '@/api/queries/Getters'
+import { ADD_TAG } from '@/api/queries/Posts'
+import { Button } from '@/components/ui/button/Button'
+import IconComponent from '@/components/ui/icon/Icon'
+import { IPopup, ITags } from '@/types/types'
 import { SyntheticEvent, useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
 import Input from '../ui/Input'
-import { Button } from '../ui/button/Button'
 import ChangeLanguage from '../ui/change-language/ChangeLanguage'
-import IconComponent from '../ui/icon/Icon'
 import Popup from './Popup'
 import styles from './Popup.module.scss'
 
-const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
-	const [isErrorCategory, setIsErrorCategory] = useState(false)
-	const [isShakeCategory, setIsShakeCategory] = useState(false)
+const PopupTag = ({ handleClose, isOpen, itemProp }: IPopup) => {
+	const [isError, setIsError] = useState(false)
+	const [isShake, setIsShake] = useState(false)
+	const [activeLang, setActiveLang] = useState('tm')
 	const [limit, setLimit] = useState(10)
 	const [page, setPage] = useState(1)
-	const [activeLang, setActiveLang] = useState('tm')
-	const { refetch } = useQuery(['getAuthor'], () =>
-		GET_AUTHOR({
-			// params: {
-			// 	limit: limit,
-			// 	page: page
-			// }
-		})
-	)
-	const [postData, setPostData] = useState<IAuthor>({
+
+	const [postData, setPostData] = useState<ITags>({
 		slug: '',
 		name: {
 			tm: '',
@@ -34,10 +27,16 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		}
 	})
 
-	const { mutate: mutateAuthor } = useMutation({
-		mutationKey: ['create authors'],
-		mutationFn: ({ data, url, method }: any) =>
-			ADD_AUTHOR({ data, url, method }),
+	const { refetch } = useQuery(['getTag'], () =>
+		GET_TAGS({
+			limit: limit,
+			page: page
+		})
+	)
+
+	const { mutate } = useMutation({
+		mutationKey: ['create tags'],
+		mutationFn: ({ data, url, method }: any) => ADD_TAG({ data, url, method }),
 		async onSuccess() {
 			toast.success('Posted successfully!')
 		}
@@ -60,7 +59,7 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		}))
 	}
 
-	const submitCategory = (e: SyntheticEvent) => {
+	const submitAuthor = (e: SyntheticEvent) => {
 		e.preventDefault()
 		if (
 			!postData.name.tm ||
@@ -69,21 +68,20 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			!postData.slug
 		) {
 			toast.error('Пополните поле!')
-			setIsErrorCategory(true)
-			setIsShakeCategory(true)
+			setIsError(true)
+			setIsShake(true)
 			setTimeout(() => {
-				setIsShakeCategory(false)
+				setIsShake(false)
 			}, 300)
 		} else {
-			setIsErrorCategory(false)
-			setIsShakeCategory(false)
-			mutateAuthor({
-				url: postData.UUID ? `/author/${postData.UUID}` : '/author',
+			setIsError(false)
+			setIsShake(false)
+			mutate({
+				url: postData.UUID ? `/tag/${postData.UUID}` : '/tag',
 				method: postData.UUID ? 'put' : 'post',
 				data: { ...postData }
 			})
 			setPostData({
-				UUID: '',
 				slug: '',
 				name: {
 					tm: '',
@@ -118,6 +116,7 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 
 	const handleClosePopUp = () => {
 		setPostData({
+			UUID: '',
 			slug: '',
 			name: {
 				tm: '',
@@ -127,15 +126,13 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		})
 		handleClose()
 	}
+
 	const setHandleSend = (e: SyntheticEvent) => {
-		submitCategory(e)
+		submitAuthor(e)
 	}
+
 	return (
-		<Popup
-			title='Добавить автора'
-			isOpen={isOpen}
-			handleClose={handleClosePopUp}
-		>
+		<Popup title='Добавить тега' isOpen={isOpen} handleClose={handleClosePopUp}>
 			<div className={styles.item}>
 				<ChangeLanguage
 					onSelectLanguage={toggleLanguage}
@@ -145,9 +142,9 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 					onChange={e => handleChange(e.target.value)}
 					value={postData.name[activeLang]}
 					placeholder='...'
-					label='Имя категории'
-					isError={isErrorCategory}
-					isShake={isShakeCategory}
+					label='Имя тега'
+					isError={isError}
+					isShake={isShake}
 				/>
 			</div>
 			<Input
@@ -155,10 +152,9 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 				value={postData.slug}
 				placeholder='...'
 				label='Slug'
-				isError={isErrorCategory}
-				isShake={isShakeCategory}
+				isError={isError}
+				isShake={isShake}
 			/>
-			{/* <Button onClick={submitCategory }> */}
 			<Button onClick={setHandleSend}>
 				<IconComponent icon='send' />
 				{itemProp?.name.tm || itemProp?.name.ru || itemProp?.name.en ? (
@@ -171,4 +167,4 @@ const PopupAuthor = ({ handleClose, isOpen, itemProp }: IPopup) => {
 	)
 }
 
-export default PopupAuthor
+export default PopupTag
