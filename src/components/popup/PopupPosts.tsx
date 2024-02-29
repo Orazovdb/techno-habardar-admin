@@ -2,23 +2,23 @@ import { GET_SUBCATEGORIES } from '@/api/queries/Getters'
 import { ADD_SUBCATEGORIES } from '@/api/queries/Posts'
 import { Button } from '@/components/ui/button/Button'
 import IconComponent from '@/components/ui/icon/Icon'
-import { ICategory, IPopup, ISubCategory } from '@/types/types'
-import { SyntheticEvent, useEffect, useState } from 'react'
+import { ICategory, IPopup, IPost } from '@/types/types'
+import { SyntheticEvent, useState } from 'react'
 import toast from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
 import Input from '../ui/Input'
 import ChangeLanguage from '../ui/change-language/ChangeLanguage'
-import ListBox from '../ui/listbox/ListBox'
 import MultiSelect from '../ui/multiselect/MultiSelect'
-import Tiptap from '../ui/tiptap/TipTap'
+import TipTap from '../ui/tiptap/TipTap'
 import Popup from './Popup'
 import styles from './Popup.module.scss'
-import TipTap from '../ui/tiptap/TipTap'
 
 const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 	const [isError, setIsError] = useState(false)
 	const [isShake, setIsShake] = useState(false)
-	const [activeLang, setActiveLang] = useState('tm')
+	const [activeLangTitle, setActiveLangTitle] = useState('tm')
+	const [activeLangDesc, setActiveLangDesc] = useState('tm')
+	const [activeLangContent, setActiveLangContent] = useState('tm')
 	const [catId, setCatId] = useState('')
 	const [selected, setSelected] = useState<ICategory>({
 		UUID: '',
@@ -29,10 +29,22 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			en: ''
 		}
 	})
-	const [postData, setPostData] = useState<ISubCategory>({
-		catId: '',
-		slug: '',
-		name: {
+	const [postData, setPostData] = useState<IPost>({
+		title: {
+			tm: '',
+			ru: '',
+			en: ''
+		},
+		description: {
+			tm: '',
+			ru: '',
+			en: ''
+		},
+		imagePath: '',
+		author: [],
+		catSub: [],
+		tag: [],
+		content: {
 			tm: '',
 			ru: '',
 			en: ''
@@ -42,7 +54,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 	// const { data } = useQuery(['getCategories'], () => GET_CATEGORIES())
 	const data = [
 		{
-			UUID: '111',
+			UUID: '',
 			name: {
 				tm: 'bla',
 				ru: 'bla',
@@ -51,7 +63,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			slug: 'slug',
 			sub_categories: [
 				{
-					UUID: '111',
+					UUID: '',
 					name: {
 						tm: 'bla',
 						ru: 'bla',
@@ -62,7 +74,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			]
 		},
 		{
-			UUID: '111',
+			UUID: '',
 			name: {
 				tm: 'bla',
 				ru: 'bla',
@@ -71,7 +83,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			slug: 'slug',
 			sub_categories: [
 				{
-					UUID: '111',
+					UUID: '',
 					name: {
 						tm: 'bla',
 						ru: 'bla',
@@ -82,7 +94,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			]
 		},
 		{
-			UUID: '111',
+			UUID: '',
 			name: {
 				tm: 'bla',
 				ru: 'bla',
@@ -91,7 +103,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			slug: 'slug',
 			sub_categories: [
 				{
-					UUID: '111',
+					UUID: '',
 					name: {
 						tm: 'bla',
 						ru: 'bla',
@@ -100,7 +112,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 					slug: 'slug'
 				},
 				{
-					UUID: '111',
+					UUID: '',
 					name: {
 						tm: 'bla',
 						ru: 'bla',
@@ -109,7 +121,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 					slug: 'slug'
 				},
 				{
-					UUID: '111',
+					UUID: '',
 					name: {
 						tm: 'bla',
 						ru: 'bla',
@@ -120,7 +132,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			]
 		},
 		{
-			UUID: '111',
+			UUID: '',
 			name: {
 				tm: 'bla',
 				ru: 'bla',
@@ -129,7 +141,7 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			slug: 'slug',
 			sub_categories: [
 				{
-					UUID: '111',
+					UUID: '',
 					name: {
 						tm: 'bla',
 						ru: 'bla',
@@ -146,16 +158,36 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		mutationKey: ['create sub categories'],
 		mutationFn: (data: any) => ADD_SUBCATEGORIES({ data }),
 		async onSuccess() {
-			toast.success('Posted sub-category successfully!')
+			toast.success('Посты созданы успешно!')
 		}
 	})
 
-	const handleChange = (value: string) => {
+	const handleChangeTitle = (value: string) => {
 		setPostData(prevData => ({
 			...prevData,
-			name: {
-				...prevData.name,
-				[activeLang]: value
+			title: {
+				...prevData.title,
+				[activeLangTitle]: value
+			}
+		}))
+	}
+
+	const handleChangeDesc = (value: string) => {
+		setPostData(prevData => ({
+			...prevData,
+			description: {
+				...prevData.description,
+				[activeLangDesc]: value
+			}
+		}))
+	}
+
+	const handleChangeContent = (value: string) => {
+		setPostData(prevData => ({
+			...prevData,
+			description: {
+				...prevData.description,
+				[activeLangContent]: value
 			}
 		}))
 	}
@@ -174,78 +206,111 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 
 	const submitSubCategory = (e: SyntheticEvent) => {
 		e.preventDefault()
-		if (
-			!catId ||
-			!postData?.name?.tm ||
-			!postData?.name?.ru ||
-			!postData?.name?.en
-		) {
-			toast.error('Выберите саб-категорию или пополните поле!')
-			setIsError(true)
-			setIsShake(true)
-			setTimeout(() => {
-				setIsShake(false)
-			}, 300)
-		} else {
-			setIsError(false)
+		// if (
+		// 	!catId ||
+		// 	!postData?.name?.tm ||
+		// 	!postData?.name?.ru ||
+		// 	!postData?.name?.en
+		// ) {
+		toast.error('Выберите саб-категорию или пополните поле!')
+		setIsError(true)
+		setIsShake(true)
+		setTimeout(() => {
 			setIsShake(false)
-			mutateSubCategory({
-				catId: catId,
-				...postData
-			})
-			setSelected({
-				UUID: '',
-				slug: '',
-				name: {
-					tm: '',
-					ru: '',
-					en: ''
-				}
-			})
-			setPostData({
-				slug: '',
-				catId: '',
-				name: {
-					tm: '',
-					ru: '',
-					en: ''
-				}
-			})
-			setTimeout(() => {
-				refetch()
-			}, 200)
-			handleClose()
-		}
+		}, 300)
+		// } else {
+		setIsError(false)
+		setIsShake(false)
+		mutateSubCategory({
+			catId: catId,
+			...postData
+		})
+		setSelected({
+			UUID: '',
+			slug: '',
+			name: {
+				tm: '',
+				ru: '',
+				en: ''
+			}
+		})
+		setPostData({
+			title: {
+				tm: '',
+				ru: '',
+				en: ''
+			},
+			description: {
+				tm: '',
+				ru: '',
+				en: ''
+			},
+			imagePath: '',
+			author: [],
+			catSub: [],
+			tag: [],
+			content: {
+				tm: '',
+				ru: '',
+				en: ''
+			}
+		})
+		setTimeout(() => {
+			refetch()
+		}, 200)
+		handleClose()
 	}
-	const toggleLanguage = (key: string) => {
-		setActiveLang(key)
+
+	const toggleLanguageTitle = (key: string) => {
+		setActiveLangTitle(key)
 	}
-	useEffect(() => {
-		if (itemProp?.UUID) {
-			setPostData({
-				slug: itemProp?.slug,
-				name: {
-					tm: itemProp?.name?.tm,
-					ru: itemProp?.name?.ru,
-					en: itemProp?.name?.en
-				}
-			})
-			setSelected({
-				UUID: itemProp?.UUID,
-				name: {
-					tm: itemProp?.catName?.tm,
-					ru: itemProp?.catName?.ru,
-					en: itemProp?.catName?.en
-				}
-			})
-		}
-	}, [itemProp])
+
+	const toggleLanguageDesc = (key: string) => {
+		setActiveLangDesc(key)
+	}
+
+	const toggleLanguageContent = (key: string) => {
+		setActiveLangContent(key)
+	}
+
+	// useEffect(() => {
+	// 	if (itemProp?.UUID) {
+	// 		setPostData({
+	// 			slug: itemProp?.slug,
+	// 			name: {
+	// 				tm: itemProp?.name?.tm,
+	// 				ru: itemProp?.name?.ru,
+	// 				en: itemProp?.name?.en
+	// 			}
+	// 		})
+	// 		setSelected({
+	// 			UUID: itemProp?.UUID,
+	// 			name: {
+	// 				tm: itemProp?.catName?.tm,
+	// 				ru: itemProp?.catName?.ru,
+	// 				en: itemProp?.catName?.en
+	// 			}
+	// 		})
+	// 	}
+	// }, [itemProp])
 
 	const handleClosePopUp = () => {
 		setPostData({
-			catId: '',
-			slug: '',
-			name: {
+			title: {
+				tm: '',
+				ru: '',
+				en: ''
+			},
+			description: {
+				tm: '',
+				ru: '',
+				en: ''
+			},
+			imagePath: '',
+			author: [],
+			catSub: [],
+			tag: [],
+			content: {
 				tm: '',
 				ru: '',
 				en: ''
@@ -261,44 +326,58 @@ const PopupPost = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			title='Добавить посты'
 			isOpen={isOpen}
 			handleClose={handleClosePopUp}
-			width='50vw'
+			width='40vw'
 		>
-			<div className={styles.item}>
-				<ChangeLanguage
-					onSelectLanguage={toggleLanguage}
-					activeLang={activeLang}
-				/>
-				<Input
-					onChange={e => handleChange(e.target.value)}
-					value={postData.name[activeLang]}
-					placeholder='...'
-					label='Имя саб-категории'
+			<div className={styles.grid}>
+				<div className={styles.item}>
+					<ChangeLanguage
+						onSelectLanguage={toggleLanguageTitle}
+						activeLang={activeLangTitle}
+					/>
+					<Input
+						onChange={e => handleChangeTitle(e.target.value)}
+						value={postData.title[activeLangTitle]}
+						placeholder='...'
+						label='Название поста'
+						isError={isError}
+						isShake={isShake}
+					/>
+				</div>
+				<div className={styles.item}>
+					<ChangeLanguage
+						onSelectLanguage={toggleLanguageDesc}
+						activeLang={activeLangDesc}
+					/>
+					<Input
+						onChange={e => handleChangeDesc(e.target.value)}
+						value={postData.description[activeLangDesc]}
+						placeholder='...'
+						label='Описание поста'
+						isError={isError}
+						isShake={isShake}
+					/>
+				</div>
+				{/* <ListBox
+					data={data}
+					selected={selected}
+					setSelected={onSelected}
 					isError={isError}
 					isShake={isShake}
+				/> */}
+				<MultiSelect
+					deleteCategory={fc}
+					selectedCategories={data}
+					categories={data}
+					selectCategory={fc}
 				/>
 			</div>
-			<Input
-				onChange={e => changeSlug(e.target.value)}
-				value={postData.slug}
-				placeholder='...'
-				label='Slug'
-				isError={isError}
-				isShake={isShake}
-			/>
-			<ListBox
-				data={data}
-				selected={selected}
-				setSelected={onSelected}
-				isError={isError}
-				isShake={isShake}
-			/>
-			<MultiSelect
-				deleteCategory={fc}
-				selectedCategories={data}
-				categories={data}
-				selectCategory={fc}
-			/>
-			<TipTap />
+			<div className={styles.item}>
+				<ChangeLanguage
+					onSelectLanguage={toggleLanguageContent}
+					activeLang={activeLangContent}
+				/>
+				<TipTap content={postData.content[activeLangContent]} />
+			</div>
 
 			<div></div>
 			<Button onClick={submitSubCategory}>

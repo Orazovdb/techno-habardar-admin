@@ -87,8 +87,8 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			setIsError(false)
 			setIsShake(false)
 			mutateSubCategory({
-				catId: catId,
-				...postData
+				...postData,
+				catId: catId
 			})
 			setSelected({
 				UUID: '',
@@ -121,6 +121,7 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 		if (itemProp?.UUID) {
 			setPostData({
 				slug: itemProp?.slug,
+				UUID: itemProp?.UUID,
 				name: {
 					tm: itemProp?.name?.tm,
 					ru: itemProp?.name?.ru,

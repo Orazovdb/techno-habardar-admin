@@ -53,3 +53,14 @@ export interface ITags {
 export interface ITagsGet {
 	tags: ITags[]
 }
+
+export interface IPost {
+	UUID?: string
+	title: LanguageData
+	description: LanguageData
+	author: IAuthor[]
+	tag: ITags[]
+	imagePath: string
+	catSub: ICategory[]
+	content: LanguageData
+}

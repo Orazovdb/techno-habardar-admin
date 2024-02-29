@@ -18,7 +18,7 @@ const AdminMiddleware = (props: AdminMiddlewareProps) => {
 		if (token == undefined) {
 			navigate({ to: '/admin/login', replace: true })
 		} else if (token) {
-			navigate({ to: '/admin/categories', replace: true })
+			// navigate({ to: '/admin/categories', replace: true })
 		}
 		setLoading(false)
 	}, [])

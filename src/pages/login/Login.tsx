@@ -6,7 +6,7 @@ import { axiosInstance } from '../../api/axiosInstance'
 
 import toast, { Toaster } from 'react-hot-toast'
 
-import { Button } from '../../components/ui/button/Button'
+import { Button } from '@/components/ui/button/Button'
 import styles from './Login.module.scss'
 
 interface formikValues {
@@ -20,7 +20,9 @@ const Login = () => {
 
 	const formik = useFormik<formikValues>({
 		initialValues: {
+			// login: 'login',
 			login: 'admin@admin.com',
+			// password: '1234'
 			password: 'bookkeeper_2023'
 		},
 		validationSchema: yup.object({
@@ -64,6 +66,7 @@ const Login = () => {
 										onChange={formik.handleChange}
 										name='login'
 										placeholder='Your username...'
+										// value='login'
 										value='admin@admin.com'
 									/>
 									{formik.touched.login && formik.errors.login ? (
@@ -79,6 +82,7 @@ const Login = () => {
 										onChange={formik.handleChange}
 										name='password'
 										placeholder='Your password...'
+										// value='1234'
 										value='bookkeeper_2023'
 									/>
 									{formik.touched.password && formik.errors.password ? (

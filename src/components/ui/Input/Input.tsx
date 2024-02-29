@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 		ref
 	): JSX.Element => {
 		return (
-			<div>
+			<div className={styles.inputWrapper}>
 				{label && <label className={styles.label}>{label}</label>}
 				<input
 					autoFocus={autoFocus}

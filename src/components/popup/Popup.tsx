@@ -18,7 +18,7 @@ const Popup = ({ title, handleClose, isOpen, children, width }: IPopup) => {
 					<div className={styles.wrapper}>
 						<div
 							style={{
-								minWidth: width
+								width: width
 							}}
 							onClick={e => e.stopPropagation()}
 							className={styles.box}

@@ -117,12 +117,10 @@ const extensions = [
 	})
 ]
 
-const content = `<h1>Напишите что нибудь</h1>`
-
-const TipTap = (): JSX.Element => {
+const TipTap = ({ content }: { content: string }): JSX.Element => {
 	return (
 		<div className='tiptap-wrapper'>
-			<EditorProvider content={content} extensions={extensions}>
+			<EditorProvider o content={content} extensions={extensions}>
 				<MenuBar />
 			</EditorProvider>
 		</div>
