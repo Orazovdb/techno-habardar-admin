@@ -5,12 +5,14 @@
 	position: relative;
 	border-radius: 10px;
 	overflow-y: auto;
+	color: #111;
 	table {
 		width: 100%;
 		border-spacing: 0px;
 		background-color: #fff;
 		font-size: 16px;
 		border-radius: 10px;
+		min-height: 100px;
 	}
 	thead {
 		position: sticky;
@@ -37,6 +39,11 @@
 		}
 	}
 	tbody {
+		.loading {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+		}
 		tr {
 			&:nth-child(even) {
 				background-color: #e9e9e9;

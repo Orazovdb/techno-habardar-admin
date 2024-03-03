@@ -1,3 +1,12 @@
+export interface IProfile {
+	uuid: string
+	fullName: string
+	phoneNumber: string
+	avatar: string
+	role: string
+	[key: string]: string
+}
+
 export interface LanguageData {
 	[key: string]: string
 }
@@ -22,6 +31,7 @@ export interface IPopup {
 export interface ICategory {
 	UUID?: string
 	slug?: string
+	catId?: string
 	name: LanguageData
 	sub_categories?: ICategory[]
 }
@@ -55,12 +65,19 @@ export interface ITagsGet {
 }
 
 export interface IPost {
-	UUID?: string
-	title: LanguageData
-	description: LanguageData
-	author: IAuthor[]
-	tag: ITags[]
-	imagePath: string
-	catSub: ICategory[]
-	content: LanguageData
+	uuid?: string
+	title_tm: string
+	title_ru: string
+	title_en: string
+	description_tm: string
+	description_ru: string
+	description_en: string
+	content_tm: string
+	content_ru: string
+	content_en: string
+	category_id: string
+	image_path: string
+	tag_id: ITags[]
+	sub_category_id: ICategory[]
+	author_id: IAuthor[]
 }

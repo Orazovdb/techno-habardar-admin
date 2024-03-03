@@ -1,24 +1,35 @@
-import { GET_SUBCATEGORIES } from '@/api/queries/Getters'
+import { GET_CATEGORIES, GET_SEARCHED_CAT } from '@/api/queries/Getters'
 import { DELETE_SUBCATEGORIES } from '@/api/queries/Posts'
 import PopupConfirm from '@/components/popup/PopUpConfirm'
 import PopupPost from '@/components/popup/PopupPosts'
+import Input from '@/components/ui/Input'
 import { Button } from '@/components/ui/button/Button'
 import IconComponent from '@/components/ui/icon/Icon'
+import Loader from '@/components/ui/loader/Loader'
 import Table from '@/components/ui/table/Table'
 import tableStyles from '@/components/ui/table/Table.module.scss'
-import { useNavigate } from '@tanstack/react-location'
 import React, { useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast'
 import { useMutation, useQuery } from 'react-query'
 import styles from './Posts.module.scss'
 
 const Posts = () => {
-	const { data, refetch } = useQuery(['getSubCategories'], () =>
-		GET_SUBCATEGORIES()
-	)
-
 	const [isPopupConfirm, setIsPopupConfirm] = useState(false)
 	const [uuid, setUuid] = useState('')
+	const [searchPost, setSearchPost] = useState('')
+
+	const { data: dataSearch, refetch } = useQuery(['getSearchedCat'], () =>
+		GET_SEARCHED_CAT({
+			params: {
+				categoryID: '',
+				search: searchPost
+			}
+		})
+	)
+
+	const { data, isLoading } = useQuery(['getSubCategories'], () =>
+		GET_CATEGORIES()
+	)
 
 	const { mutate: mutateDeleteSubCategory } = useMutation({
 		mutationKey: ['delete'],
@@ -42,14 +53,6 @@ const Posts = () => {
 		}, 200)
 	}
 
-	const buttons = [
-		{ title: 'Категории', isNotActive: true, to: '/admin/categories' },
-		{ title: 'Под-категории', to: '/admin/sub-categories' },
-		{ title: 'Авторы', isNotActive: true, to: '/admin/authors' },
-		{ title: 'Теги', isNotActive: true, to: '/admin/tags' }
-	]
-
-	const navigate = useNavigate()
 	const [isOpenPopup, setIsOpenPopup] = useState(false)
 	const [itemEdit, setItemEdit] = useState<any>(null)
 
@@ -66,6 +69,8 @@ const Posts = () => {
 	return (
 		<div className={styles.dashboard}>
 			<Toaster position='top-center' />
+			<Input value={searchPost} onChange={e => setSearchPost(e.target.value)} />
+			<Button onClick={refetch}>SEARCH</Button>
 			<PopupPost
 				isOpen={isOpenPopup}
 				handleClose={closePopup}
@@ -84,17 +89,6 @@ const Posts = () => {
 					Добавить посты
 				</Button>
 			</div>
-			<div className={styles.buttons}>
-				{buttons.map((button, i) => (
-					<Button
-						onClick={() => navigate({ to: button.to })}
-						notActive={button.isNotActive}
-						key={i}
-					>
-						{button.title}
-					</Button>
-				))}
-			</div>
 			<Table>
 				<thead>
 					<tr>
@@ -104,38 +98,46 @@ const Posts = () => {
 					</tr>
 				</thead>
 				<tbody>
-					{data?.length ? (
+					{isLoading ? (
+						<div className={tableStyles.loading}>
+							<Loader />
+						</div>
+					) : (
 						<React.Fragment>
-							{data?.map((item, i) => (
-								<tr key={i}>
-									<td>{i + 1}</td>
-									<td>{item?.name?.tm}</td>
-									<td>
-										<div className={tableStyles.actions}>
-											<div
-												onClick={() => edit(item)}
-												className={tableStyles.edit}
-											>
-												<IconComponent icon='edit' />
-											</div>
-											<div
-												onClick={() => popupConfirm(item?.UUID)}
-												className={tableStyles.crash}
-											>
-												<IconComponent icon='crash' />
-											</div>
-										</div>
+							{data?.length ? (
+								<React.Fragment>
+									{data?.map((item, i) => (
+										<tr key={i}>
+											<td>{i + 1}</td>
+											<td>{item?.name?.tm}</td>
+											<td>
+												<div className={tableStyles.actions}>
+													<div
+														onClick={() => edit(item)}
+														className={tableStyles.edit}
+													>
+														<IconComponent icon='edit' />
+													</div>
+													<div
+														onClick={() => popupConfirm(item?.UUID)}
+														className={tableStyles.crash}
+													>
+														<IconComponent icon='crash' />
+													</div>
+												</div>
+											</td>
+										</tr>
+									))}
+								</React.Fragment>
+							) : (
+								<tr>
+									<td></td>
+									<td className={tableStyles.empty}>
+										Пусто, добавьте что нибудь...
 									</td>
 								</tr>
-							))}
+							)}
 						</React.Fragment>
-					) : (
-						<tr>
-							<td></td>
-							<td className={tableStyles.empty}>
-								Пусто, добавьте что нибудь...
-							</td>
-						</tr>
 					)}
 				</tbody>
 			</Table>

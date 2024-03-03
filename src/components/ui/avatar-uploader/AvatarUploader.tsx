@@ -13,6 +13,7 @@ interface AvatarProps {
 	insideIcon?: boolean
 	onUploadFile?: (data: any) => void
 	buttonStyle?: Boolean
+	heightFull?: Boolean
 }
 
 const Avatar: React.FC<AvatarProps> = ({
@@ -20,7 +21,8 @@ const Avatar: React.FC<AvatarProps> = ({
 	label,
 	onUploadFile,
 	buttonStyle,
-	insideIcon
+	insideIcon,
+	heightFull
 }) => {
 	const [img, setImg] = useState<string | null>(null)
 	const changeFile = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,16 +40,15 @@ const Avatar: React.FC<AvatarProps> = ({
 		<div
 			className={`${cx({
 				avatarWrapper: true,
-				buttonStyle: buttonStyle
+				buttonStyle: buttonStyle,
+				heightFull: heightFull
 			})}`}
 		>
 			{label && <label className={styles.label}>{label}</label>}
 			<div className={styles.avatar}>
-				{insideIcon && (
-					<div className={styles.insideIcon}>
-						<IconComponent icon='imgUpload' />
-					</div>
-				)}
+				<div className={styles.insideIcon}>
+					<IconComponent icon='imgUpload' />
+				</div>
 				{imgPath && (
 					<div className={styles.avatar__image}>
 						<img src={BASE_IMG_URL + imgPath.slice(7)} alt='' />

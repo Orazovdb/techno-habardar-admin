@@ -19,8 +19,6 @@ const MenuBar = () => {
 	}
 
 	const uploadFile = (file: any) => {
-		console.log(file)
-
 		editor
 			?.chain()
 			.focus()
@@ -120,7 +118,7 @@ const extensions = [
 const TipTap = ({ content }: { content: string }): JSX.Element => {
 	return (
 		<div className='tiptap-wrapper'>
-			<EditorProvider o content={content} extensions={extensions}>
+			<EditorProvider content={content} extensions={extensions}>
 				<MenuBar />
 			</EditorProvider>
 		</div>

@@ -122,6 +122,7 @@ const PopupSubCategory = ({ handleClose, isOpen, itemProp }: IPopup) => {
 			setPostData({
 				slug: itemProp?.slug,
 				UUID: itemProp?.UUID,
+				catId: itemProp?.catId,
 				name: {
 					tm: itemProp?.name?.tm,
 					ru: itemProp?.name?.ru,

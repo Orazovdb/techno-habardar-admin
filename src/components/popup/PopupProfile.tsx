@@ -36,7 +36,6 @@ const PopupProfile = ({ handleClose, isOpen }: IPopup) => {
 	const { mutate } = useMutation({
 		mutationKey: ['create profile'],
 		mutationFn: (data: any) => ADD_PROFILE({ data }),
-
 		async onSuccess() {
 			toast.success('Posted successfully!')
 			refetch()

@@ -1,5 +1,10 @@
 .avatarWrapper {
 	cursor: pointer;
+	&.heightFull {
+		.avatar {
+			height: 90%;
+		}
+	}
 	&.buttonStyle {
 		.avatar {
 			width: 33px;
@@ -12,8 +17,9 @@
 				background-color: var(--blackOpacity-100);
 			}
 			.insideIcon {
-				font-size: 14px;
 				svg {
+					width: 20px;
+					height: 20px;
 					color: var(--primary);
 				}
 			}
@@ -31,8 +37,31 @@
 		height: 160px;
 		position: relative;
 		border: 2px dashed var(--primaryLight);
+		transition: all 0.1s;
+		&:hover {
+			background-color: var(--blackOpacity-100);
+		}
 		&:active {
+			transition: all 0.1s;
 			border: 2px dashed var(--primary);
+			.insideIcon {
+				svg {
+					color: var(--primary);
+				}
+			}
+		}
+
+		.insideIcon {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			svg {
+				color: var(--primaryLight);
+				height: 60px;
+				width: 60px;
+				transition: all 0.1s;
+			}
 		}
 
 		&__image {

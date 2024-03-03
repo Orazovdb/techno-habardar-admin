@@ -117,7 +117,6 @@ const Dashboard = () => {
 	const edit = (item: any) => {
 		setIsOpenPopup(true)
 		setItemEdit(item)
-		console.log(setItemEdit(item))
 	}
 
 	const closePopup = () => {

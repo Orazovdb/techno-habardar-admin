@@ -6,17 +6,9 @@ import { Button } from '../button/Button'
 import IconComponent from '../icon/Icon'
 import './MultiSelect.scss'
 
-// interface Category {
-// 	uuid: string
-// 	category_slug: string
-// 	name_ru: string
-// 	name_tm: string
-// 	sub_categories?: any[]
-// }
-
 interface Props {
 	categories?: ICategory[]
-	selectedCategories?: any[]
+	selectedCategories?: ICategory[]
 	selectCategory: (category: ICategory, parent: ICategory | null) => void
 	deleteCategory: (category: ICategory) => void
 }
@@ -43,7 +35,8 @@ const MultiSelect: React.FC<Props> = ({
 							// appendIcon="chevronDown"
 							// styles="secondary"
 						>
-							Bas
+							Выберите категории
+							<IconComponent icon='chevronBottom' />
 						</Button>
 					</div>
 					{showDropdown && (
@@ -97,15 +90,32 @@ const MultiSelect: React.FC<Props> = ({
 					)}
 				</div>
 			</div>
-			{selectedCategories?.map(selectedCategory => (
-				<div
-					key={selectedCategory.UUID}
-					className='article-categories__selected-category'
-				>
-					<p>{selectedCategory.name.tm}</p>
-					<button onClick={() => deleteCategory(selectedCategory)}>
-						delete
-					</button>
+			{selectedCategories?.map((selectedCat, i) => (
+				<div key={i} className='article-categories__selected-category'>
+					<React.Fragment>
+						{selectedCat.sub_categories ||
+						selectedCat.sub_categories === null ? (
+							<>
+								<p>
+									<span>кат/</span>
+									<span>{selectedCat.name.tm}</span>
+								</p>
+								<button onClick={() => deleteCategory(selectedCat)}>
+									<IconComponent icon='crash' />
+								</button>
+							</>
+						) : (
+							<>
+								<p>
+									<span>суб-кат/</span>
+									<span>{selectedCat.name.tm}</span>
+								</p>
+								<button onClick={() => deleteCategory(selectedCat)}>
+									<IconComponent icon='crash' />
+								</button>
+							</>
+						)}
+					</React.Fragment>
 				</div>
 			))}
 		</div>
